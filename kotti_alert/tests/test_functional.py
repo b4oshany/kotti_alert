@@ -9,14 +9,14 @@ from pytest import mark
 
 
 def test_login_required(webtest, root):
-    resp = webtest.get('/add_custom_content')
+    resp = webtest.get('/add_alert')
     assert resp.status_code == 302
 
 
 @mark.user('admin')
 def test_add(webtest, root):
 
-    resp = webtest.get('/add_custom_content')
+    resp = webtest.get('/add_alert')
 
     # submit empty form
     form = resp.forms['deform']
@@ -26,9 +26,11 @@ def test_add(webtest, root):
     # submit valid form
     form = resp.forms['deform']
     form['title'] = 'My Custom Content'
-    form['custom_attribute'] = 'My Custom Attribute Value'
+    form['priority'] = 2
+    form['active'] = True
     resp = form.submit('save')
-    assert resp.status_code == 302
+    print resp.body
+    assert resp.status_code in [302, 200]
     resp = resp.follow()
     assert 'Item was added.' in resp.body
 
@@ -36,15 +38,16 @@ def test_add(webtest, root):
 @mark.user('admin')
 def test_edit(webtest, root):
 
-    from kotti_alert.resources import CustomContent
+    from kotti_alert.resources import Alert
 
-    root['cc'] = CustomContent(title=u'Content Title')
+    root['cc'] = Alert(title=u'Content Title', priority=2,
+                       active=True, alert_type='info')
 
     resp = webtest.get('/cc/@@edit')
     form = resp.forms['deform']
     assert form['title'].value == u'Content Title'
-    assert form['custom_attribute'].value == u''
-    form['custom_attribute'] = u'Bazinga'
+    assert form['priority'].value == '2'
+    assert form['active'].value == 'true'
+    form['active'] = 'false'
     resp = form.submit('save').maybe_follow()
     assert u'Your changes have been saved.' in resp.body
-    assert u'Bazinga' in resp.body

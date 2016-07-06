@@ -9,16 +9,13 @@ from pytest import raises
 
 
 def test_model(root, db_session):
-    from kotti_alert.resources import CustomContent
+    from kotti_alert.resources import Alert
 
-    cc = CustomContent()
-    assert cc.custom_attribute is None
+    cc = Alert(alert_type=u'warning')
+    assert cc.alert_type == u'warning'
 
-    cc = CustomContent(custom_attribute=u'Foo')
-    assert cc.custom_attribute == u'Foo'
-
-    root['cc'] = cc = CustomContent()
+    root['cc'] = cc = Alert()
     assert cc.name == 'cc'
 
     with raises(TypeError):
-        cc = CustomContent(doesnotexist=u'Foo')
+        cc = Alert(doesnotexist=u'Foo')

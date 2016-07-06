@@ -37,10 +37,11 @@ class AlertSchema(ContentSchema):
         title=_(u'Alert Type'),
         validator=colander.OneOf(["info", "warning", "danger"]),
         widget=RadioChoiceWidget(values=[
-            ["info", _("Gernal Message")],
+            ["info", _("Gernal")],
             ["warning", _("Warning")],
             ["danger", _("Important")]]
-        )
+        ),
+        default="info"
     )
 
     active = colander.SchemaNode(

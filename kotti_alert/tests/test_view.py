@@ -5,31 +5,30 @@ Created on 2016-07-01
 :author: Oshane Bailey (b4.oshany@gmail.com)
 """
 
+import datetime
 from pytest import fixture
 
 
 @fixture
 def dummy_content(root):
 
-    from kotti_alert.resources import CustomContent
+    from kotti_alert.resources import Alert
 
-    root['cc'] = cc = CustomContent(
+    root['alert'] = alert = Alert(
         title=u'My content',
         description=u'My very custom content is custom',
-        custom_attribute='Lorem ipsum'
+        priority=2,
+        active=True,
+        end_date=datetime.date.today()
     )
 
-    return cc
+    return alert
 
 
 def test_view(dummy_content, dummy_request):
 
-    from kotti_alert.views.view import CustomContentViews
+    from kotti_alert.views.view import AlertViews
 
-    views = CustomContentViews(dummy_content, dummy_request)
+    views = AlertViews(dummy_content, dummy_request)
 
-    default = views.default_view()
-    assert 'foo' in default
-
-    alternative = views.alternative_view()
-    assert alternative['foo'] == u'bar'
+    assert views.context.title == u'My content'
