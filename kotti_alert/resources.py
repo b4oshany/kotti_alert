@@ -105,15 +105,6 @@ class Alert(Content):
             )
             
         if user:
-            # import pdb; pdb.set_trace()
-            # stmt = exists().where(cls.id==SeenBy.alert_id)
-            # query = query.filter(
-            #     ((cls.track_user == True) &
-            #      (stmt) &
-            #      (SeenBy.username != user.name)
-            #     ) |
-            #     (cls.track_user == False)
-            # )
             query = query.filter(
                 (cls.username_or_group == '') |
                 (cls.username_or_group == user.name) |
