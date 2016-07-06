@@ -32,9 +32,9 @@ def user_or_group_validator(node, value):
 class AlertSchema(ContentSchema):
     """ Schema for Alert. """
 
-    alert_type = colander.SchemaNode(
+    alert_status = colander.SchemaNode(
         colander.String(),
-        title=_(u'Alert Type'),
+        title=_(u'Alert Status'),
         validator=colander.OneOf(["info", "warning", "danger"]),
         widget=RadioChoiceWidget(values=[
             ["info", _("Gernal")],

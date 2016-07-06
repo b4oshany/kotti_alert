@@ -64,7 +64,8 @@ class Alert(Content):
 
     id = Column(Integer, ForeignKey('contents.id'), primary_key=True)
     end_date = Column(Date, default=func.now())
-    alert_type = Column(String, default="info")
+    alert_status = Column(String, default="info")
+    alert_type = Column(String, default="alert")
     priority = Column(Integer, default=10)
     active = Column(Boolean, default=False)
     track_user = Column(Boolean, default=True)
@@ -74,7 +75,7 @@ class Alert(Content):
 
     type_info = Content.type_info.copy(
         name=u'Alert',
-        title=_(u'Alert'),
+        title=_(u'Site Alert'),
         add_view=u'add_alert',
         addable_to=[u'Document']
     )

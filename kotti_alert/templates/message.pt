@@ -1,5 +1,5 @@
 <!-- kotti_alert enabled -->
-<div  tal:condition="alert is not None" class="kotti-alerts alert alert-${alert.alert_type}" role="alert">
+<div  tal:condition="alert is not None" class="kotti-alerts alert alert-${alert.alert_status}" role="alert">
   <h4 >
     ${alert.title}
     <a href="${request.resource_url(alert, 'edit')}">
