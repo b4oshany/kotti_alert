@@ -1,7 +1,7 @@
 kotti_alert
 ***********
 
-This is an extension to Kotti that allows to add foo to your site.
+This is an extension to Kotti that allows to add alerts and other notifications to your site.
 
 |pypi|_
 |downloads_month|_
