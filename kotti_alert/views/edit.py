@@ -21,11 +21,11 @@ def user_or_group_validator(node, value):
     # Aphanumeric value for the application key or the data release key
     user_or_group = Principal.query.filter(
         (Principal.name == value) |
-        (Principal.name == "group:{}".format(value))
+        (Principal.groups.contains(value))
     ).first()
     if not user_or_group:
         raise colander.Invalid(
-            node, _(u"Invalid username or group.")
+            node, _(u"Invalid username, group or role.")
         )
 
 
@@ -63,8 +63,11 @@ class AlertSchema(ContentSchema):
     
     username_or_group = colander.SchemaNode(
         colander.String(),
-        title=_(u'Username or group'),
-        description=_(u'Only the specified user or group will see this alert'),
+        title=_(u'Username, group or role'),
+        description=_(u'Only the specified user, group or users with the given'
+                      ' role will see this alert. For groups and roles, '
+                      'prepend "group:" or "role:" to the available group or '
+                      'role, e.g. role:principal'),
         validator=colander.All(user_or_group_validator),
         default="",
         missing=""
