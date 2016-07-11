@@ -1,6 +1,14 @@
 History
 =======
 
+0.2.1
+-----
+
+Bug fixes:
+
+- Ensure that only the intended user(s) can view the alert.
+
+
 0.2.0 - Official Version
 ------------------------
 
