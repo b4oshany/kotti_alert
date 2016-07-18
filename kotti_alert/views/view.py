@@ -47,6 +47,27 @@ class AlertMessageView(BaseView):
         }
 
 
+class AlertControlPanel(BaseView):
+    """Control panel for kotti alerts."""
+    
+    @view_config(name="all-alerts",
+                 permission="admin",
+                 root_only=True,
+                 renderer="kotti_alert:templates/list.pt")
+    def list_alerts(self):
+        view = self.request.params.get("view", "active")
+        alerts = []
+        if view == "active":
+            alerts = Alert.get_active_alerts()
+        elif view == "expired":
+            alerts = Alert.get_expired_alerts()
+        elif view == "disabled":
+            alerts = Alert.get_disabled_alerts()
+        return {
+            "alerts": alerts
+        }
+
+
 @view_defaults(context=Alert, permission='view')
 class AlertViews(BaseView):
     """ Views for :class:`kotti_alert.resources.CustomContent` """

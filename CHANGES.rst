@@ -1,6 +1,12 @@
 History
 =======
 
+0.2.2
+-----
+
+- Added a listing page for alerts. Visit http://localhost:8080/@@all-alerts to
+  see the list.
+
 0.2.1
 -----
 
@@ -17,7 +23,7 @@ Bug fixes:
 
 
 0.1.0 - Beta Version
-------------------
+------------------------
 
 - Create package with ``pcreate -s kotti kotti_alert``.
 - Add filter alerts by date and username.

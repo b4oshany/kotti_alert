@@ -6,12 +6,12 @@ Created on 2016-07-01
 """
 import datetime
 import colander
-from kotti.views.edit import ContentSchema
+from kotti.views.edit import DocumentSchema
 from kotti.views.form import AddFormView
 from kotti.views.form import EditFormView
 from kotti.security import Principal
 from pyramid.view import view_config
-from deform.widget import RadioChoiceWidget
+from deform.widget import RadioChoiceWidget, RichTextWidget, TextAreaWidget
 
 from kotti_alert import _
 from kotti_alert.resources import Alert
@@ -29,8 +29,24 @@ def user_or_group_validator(node, value):
         )
 
 
-class AlertSchema(ContentSchema):
+class AlertSchema(DocumentSchema):
     """ Schema for Alert. """
+    
+    body = colander.SchemaNode(
+        colander.String(),
+        title=_(u'Read more text'),
+        widget=RichTextWidget(
+            height=500,
+        ),
+        missing=u"",
+    )
+
+    description = colander.SchemaNode(
+        colander.String(),
+        title=_('Alert Message'),
+        widget=TextAreaWidget(cols=40, rows=5),
+        missing=u"",
+    )
 
     alert_status = colander.SchemaNode(
         colander.String(),

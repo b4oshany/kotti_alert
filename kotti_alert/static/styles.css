@@ -1,1 +1,5 @@
 /* CSS */
+
+.kotti-alerts tr td {
+    vertical-align: middle !important;
+}

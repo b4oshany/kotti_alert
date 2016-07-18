@@ -8,7 +8,7 @@ Created on 2016-07-01
 import datetime
 from kotti import Base, DBSession
 from kotti.interfaces import IDefaultWorkflow
-from kotti.resources import Content
+from kotti.resources import Content, Document
 from sqlalchemy import (
     Column,
     ForeignKey,
@@ -57,12 +57,12 @@ class SeenBy(Base):
                 
 
 
-class Alert(Content):
+class Alert(Document):
     """ A custom content type. """
 
     implements(IDefaultWorkflow)
 
-    id = Column(Integer, ForeignKey('contents.id'), primary_key=True)
+    id = Column(Integer, ForeignKey('documents.id'), primary_key=True)
     end_date = Column(Date, default=func.now())
     alert_status = Column(String, default="info")
     alert_type = Column(String, default="alert")
@@ -85,7 +85,7 @@ class Alert(Content):
         self.in_navigation = False
     
     @classmethod
-    def get_by_priority(cls, user=None, excludes=[]):
+    def get_all(cls, user=None, excludes=[]):
         """Get the latest alert by priority
         
         :params user_or_group:      Username or group to filter by.
@@ -95,9 +95,6 @@ class Alert(Content):
         """
         query = cls.query.outerjoin(
             SeenBy
-        ).filter(
-            cls.active == True,
-            cls.end_date >= datetime.date.today()
         )
         if excludes:
             query = query.filter(
@@ -110,7 +107,48 @@ class Alert(Content):
                 (cls.username_or_group == user.name) |
                 (cls.username_or_group.in_(user.groups))
             )
+        return query
+
+    @classmethod
+    def get_active_alerts(cls, user=None, excludes=[]):
+        query = cls.get_all(user=user, excludes=excludes)
+        return query.filter(
+            cls.active == True,
+            cls.end_date >= datetime.date.today()
+        ).order_by(
+            cls.priority.asc(),
+            cls.modification_date.desc()
+        )
+
+    @classmethod
+    def get_expired_alerts(cls, user=None, excludes=[]):
+        query = cls.get_all(user=user, excludes=excludes)
+        return query.filter(
+            cls.end_date < datetime.date.today()
+        ).order_by(
+            cls.priority.asc(),
+            cls.modification_date.desc()
+        )
+
+    @classmethod
+    def get_disabled_alerts(cls, user=None, excludes=[]):
+        query = cls.get_all(user=user, excludes=excludes)
+        return query.filter(
+            cls.end_date < datetime.date.today()
+        ).order_by(
+            cls.priority.asc(),
+            cls.modification_date.desc()
+        )
+      
+    @classmethod
+    def get_by_priority(cls, user=None, excludes=[]):
+        query = cls.get_all(user=user, excludes=excludes)
+        query = query.filter(
+            cls.active == True,
+            cls.end_date >= datetime.date.today()
+        )
         return query.order_by(
             cls.priority.asc(),
             cls.modification_date.desc()
         ).limit(1).first()
+        

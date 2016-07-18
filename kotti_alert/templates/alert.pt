@@ -10,11 +10,13 @@
            class="content kotti-alerts"
            i18n:domain="kotti_alert">
 
-    <h1>${context.title}</h1>
-    <p class="lead">
-      ${context.description}
-    </p>
-    <div tal:content="structure context.custom_attribute | None"></div>
-
+    <div>
+      <h2>
+        ${context.title}
+      </h2>
+      <h4>${context.description}</h4>
+      <hr/>
+    </div>
+    <div tal:content="structure context.body | None"></div>
   </article>
 </html>

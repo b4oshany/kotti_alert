@@ -1,7 +1,7 @@
 kotti_alert
 ***********
 
-This is an extension to Kotti that allows to add alerts and other notifications to your site.
+This is an extension to Kotti that allows you to add alerts and other notifications to your site.
 
 |pypi|_
 |downloads_month|_
@@ -17,8 +17,8 @@ This is an extension to Kotti that allows to add alerts and other notifications 
 .. |license| image:: https://img.shields.io/pypi/l/kotti_alert.svg?style=flat-square
 .. _license: http://www.repoze.org/LICENSE.txt
 
-.. |build_status_stable| image:: https://img.shields.io/travis/b4oshany/kotti_alert/production.svg?style=flat-square
-.. _build_status_stable: http://travis-ci.org/b4oshany/kotti_alert
+.. |build_status_stable| image:: https://travis-ci.org/b4oshany/kotti_alert.svg?branch=master
+.. _build_status_stable: https://travis-ci.org/b4oshany/kotti_alert
 
 `Find out more about Kotti`_
 
