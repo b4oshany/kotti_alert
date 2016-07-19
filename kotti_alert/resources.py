@@ -100,12 +100,14 @@ class Alert(Document):
             query = query.filter(
                 ~cls.id.in_(excludes)
             )
-            
         if user:
             query = query.filter(
-                (cls.username_or_group == '') |
                 (cls.username_or_group == user.name) |
                 (cls.username_or_group.in_(user.groups))
+            )
+        else:
+            query = query.filter(
+                cls.username_or_group == ''
             )
         return query
 

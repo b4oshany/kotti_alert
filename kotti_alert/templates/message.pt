@@ -1,5 +1,5 @@
 <!-- kotti_alert enabled -->
-<div  tal:condition="alert is not None and ( (alert.username_or_group and request.user is not None) or (not alert.username_or_group and request.user is None) )"
+<div  tal:condition="alert is not None"
       class="kotti-alerts alert alert-${alert.alert_status}" role="alert">
   <h4 >
     ${alert.title}

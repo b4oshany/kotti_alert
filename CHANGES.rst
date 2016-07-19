@@ -1,6 +1,11 @@
 History
 =======
 
+0.2.3
+-----
+
+- Fixed the filtering of alerts by user name, roles and groups.
+
 0.2.2
 -----
 
