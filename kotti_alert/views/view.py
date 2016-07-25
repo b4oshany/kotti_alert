@@ -55,14 +55,16 @@ class AlertControlPanel(BaseView):
                  root_only=True,
                  renderer="kotti_alert:templates/list.pt")
     def list_alerts(self):
-        view = self.request.params.get("view", "active")
+        status = self.request.params.get("status", "active")
         alerts = []
-        if view == "active":
-            alerts = Alert.get_active_alerts()
-        elif view == "expired":
+        if status == "all":
+            alerts = Alert.query.all()
+        elif status == "expired":
             alerts = Alert.get_expired_alerts()
-        elif view == "disabled":
+        elif status == "disabled":
             alerts = Alert.get_disabled_alerts()
+        else:
+            alerts = Alert.get_active_alerts()
         return {
             "alerts": alerts
         }

@@ -83,6 +83,15 @@ class Alert(Document):
     def __init__(self, **kwargs):
         super(Alert, self).__init__(**kwargs)
         self.in_navigation = False
+
+    def get_status_title(self):
+        if self.alert_status == "info":
+            return "General"
+        elif self.alert_status == "warning":
+            return "Warning"
+        elif self.alert_status == "danger":
+            return "Important"
+        return ""
     
     @classmethod
     def get_all(cls, user=None, excludes=[]):
@@ -103,7 +112,8 @@ class Alert(Document):
         if user:
             query = query.filter(
                 (cls.username_or_group == user.name) |
-                (cls.username_or_group.in_(user.groups))
+                (cls.username_or_group.in_(user.groups)) |
+                (cls.username_or_group == '')
             )
         else:
             query = query.filter(

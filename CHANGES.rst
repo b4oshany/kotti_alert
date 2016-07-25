@@ -1,6 +1,17 @@
 History
 =======
 
+0.2.5
+-----
+
+- Improved the listing of system alerts.
+
+
+0.2.4
+------
+
+- Added filtering for alert statuses.
+
 0.2.3
 -----
 
