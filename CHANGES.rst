@@ -1,6 +1,13 @@
 History
 =======
 
+0.2.6
+------
+
+- Improved the querying of alerts.
+- Ensured that all types of alerts are shown in the alerts list.
+
+
 0.2.5
 -----
 

@@ -68,7 +68,7 @@ class AlertSchema(DocumentSchema):
 
     end_date = colander.SchemaNode(
         colander.Date(),
-        default=(datetime.date.today() + datetime.timedelta(6*365/12))
+        default=(datetime.date.today() + datetime.timedelta(30))
     )
     
     priority = colander.SchemaNode(
@@ -88,12 +88,6 @@ class AlertSchema(DocumentSchema):
         default="",
         missing=""
     )
-
-    # track_user = colander.SchemaNode(
-    #     colander.Boolean(),
-    #     title=_(u'Track users who\'ve seen this alert'),
-    #     default=False
-    # )
 
 
 @view_config(name=Alert.type_info.add_view, 

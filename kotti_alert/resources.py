@@ -92,12 +92,22 @@ class Alert(Document):
         elif self.alert_status == "danger":
             return "Important"
         return ""
+
+    def is_active(self):
+        return self.end_date >= datetime.date.today()
     
     @classmethod
-    def get_all(cls, user=None, excludes=[]):
+    def get_all(cls, user=False, excludes=[]):
         """Get the latest alert by priority
         
         :params user_or_group:      Username or group to filter by.
+        :params exludes:            List of user IDs to exclude from the result
+                                    set.
+        :params user:               Current logged in user object. If set to
+                                    None, then all alerts will be returned
+                                    without performing any user query.
+                                    If set to False, user roles will be
+                                    performed in the query.
         
         :returns Alert:             Returns the first matching alert object,
                                     else None.
@@ -115,14 +125,28 @@ class Alert(Document):
                 (cls.username_or_group.in_(user.groups)) |
                 (cls.username_or_group == '')
             )
-        else:
+        elif user is None:
             query = query.filter(
                 cls.username_or_group == ''
             )
         return query
 
     @classmethod
-    def get_active_alerts(cls, user=None, excludes=[]):
+    def get_active_alerts(cls, user=False, excludes=[]):
+        """Get the latest active alerts by priority
+        
+        :params user_or_group:      Username or group to filter by.
+        :params exludes:            List of user IDs to exclude from the result
+                                    set.
+        :params user:               Current logged in user object. If set to
+                                    None, then all alerts will be returned
+                                    without performing any user query.
+                                    If set to False, user roles will be
+                                    performed in the query.
+        
+        :returns Alert:             Returns the first matching alert object,
+                                    else None.
+        """
         query = cls.get_all(user=user, excludes=excludes)
         return query.filter(
             cls.active == True,
@@ -133,7 +157,21 @@ class Alert(Document):
         )
 
     @classmethod
-    def get_expired_alerts(cls, user=None, excludes=[]):
+    def get_expired_alerts(cls, user=False, excludes=[]):
+        """Get all expired alerts by priority
+        
+        :params user_or_group:      Username or group to filter by.
+        :params exludes:            List of user IDs to exclude from the result
+                                    set.
+        :params user:               Current logged in user object. If set to
+                                    None, then all alerts will be returned
+                                    without performing any user query.
+                                    If set to False, user roles will be
+                                    performed in the query.
+        
+        :returns Alert:             Returns the first matching alert object,
+                                    else None.
+        """
         query = cls.get_all(user=user, excludes=excludes)
         return query.filter(
             cls.end_date < datetime.date.today()
@@ -143,7 +181,21 @@ class Alert(Document):
         )
 
     @classmethod
-    def get_disabled_alerts(cls, user=None, excludes=[]):
+    def get_disabled_alerts(cls, user=False, excludes=[]):
+        """Get all disabled alerts by priority
+        
+        :params user_or_group:      Username or group to filter by.
+        :params exludes:            List of user IDs to exclude from the result
+                                    set.
+        :params user:               Current logged in user object. If set to
+                                    None, then all alerts will be returned
+                                    without performing any user query.
+                                    If set to False, user roles will be
+                                    performed in the query.
+        
+        :returns Alert:             Returns the first matching alert object,
+                                    else None.
+        """
         query = cls.get_all(user=user, excludes=excludes)
         return query.filter(
             cls.end_date < datetime.date.today()
@@ -153,7 +205,21 @@ class Alert(Document):
         )
       
     @classmethod
-    def get_by_priority(cls, user=None, excludes=[]):
+    def get_by_priority(cls, user=False, excludes=[]):
+        """Get the latest alert by priority
+        
+        :params user_or_group:      Username or group to filter by.
+        :params exludes:            List of user IDs to exclude from the result
+                                    set.
+        :params user:               Current logged in user object. If set to
+                                    None, then all alerts will be returned
+                                    without performing any user query.
+                                    If set to False, user roles will be
+                                    performed in the query.
+        
+        :returns Alert:             Returns the first matching alert object,
+                                    else None.
+        """
         query = cls.get_all(user=user, excludes=excludes)
         query = query.filter(
             cls.active == True,
