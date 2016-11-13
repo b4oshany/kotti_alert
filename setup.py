@@ -51,6 +51,5 @@ setup(
         'fanstatic.libraries': [
             'kotti_alert = kotti_alert.fanstatic:library',
         ],
-    },
-    extras_require={},
+    }
 )

@@ -43,6 +43,7 @@
                     <th data-field="enabled">Enabled</th>
                     <th data-field="user_or_group">Audience</th>
                     <th data-field="status">Status</th>
+                    <th tal:condition="request.params.get('status', None) == 'all'" data-field="active">Active</th>
                     <th data-field="end_date">End Date</th>
                     <th data-field="options" >Options</th>
                 </tr>
@@ -53,6 +54,9 @@
                 <td valign="middle">${ alert.active }</td>
                 <td valign="middle">${ alert.username_or_group or "everyone" }</td>
                 <td valign="middle">${ alert.get_status_title() }</td>
+                <td  tal:condition="request.params.get('status', None) == 'all'" valign="middle">
+                    ${ 'True' if alert.is_active() else 'False' | 'False' }
+                </td>
                 <td valign="middle">
                   ${ alert.end_date.strftime("%A %d. %B %Y") | '' }
                 </td>
