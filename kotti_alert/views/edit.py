@@ -53,7 +53,7 @@ class AlertSchema(DocumentSchema):
         title=_(u'Alert Status'),
         validator=colander.OneOf(["info", "warning", "danger"]),
         widget=RadioChoiceWidget(values=[
-            ["info", _("Gernal")],
+            ["info", _("General")],
             ["warning", _("Warning")],
             ["danger", _("Important")]]
         ),
