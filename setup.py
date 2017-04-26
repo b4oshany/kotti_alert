@@ -13,11 +13,12 @@ try:
 except IOError:
     CHANGES = ''
 
-version = '0.2.9'
+version = '0.2.10'
 
 install_requires = [
     'Kotti>=1.0.0',
     'kotti_tinymce',
+    'kotti_controlpanel>=1.0.6'
 ]
 
 

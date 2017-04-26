@@ -6,7 +6,9 @@ Created on 2016-07-01
 """
 
 from kotti.views.slots import assign_slot
+from kotti.util import Link
 from pyramid.i18n import TranslationStringFactory
+from kotti_controlpanel import CONTROL_PANEL_LINKS
 
 _ = TranslationStringFactory('kotti_alert')
 
@@ -28,6 +30,7 @@ def kotti_configure(settings):
     settings['kotti.available_types'] += ' kotti_alert.resources.Alert'
     settings['kotti.fanstatic.view_needed'] += ' kotti_alert.fanstatic.css_and_js'
     assign_slot('kotti-alert', 'abovecontent')
+    CONTROL_PANEL_LINKS.append(Link('all-alerts', title=_(u'Alerts')))
 
 
 def includeme(config):

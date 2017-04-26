@@ -11,7 +11,7 @@
            i18n:domain="kotti_alert">
     <h2>
       Alerts
-      
+
       <div class="pull-right">
         <a href="?status=all"
             class="btn btn-${'primary' if request.params.get('status', None) == 'all' else 'default'} btn-md">
@@ -31,7 +31,7 @@
         </a>
       </div>
     </h2>
-    <div class="table-responsive">                            
+    <div class="table-responsive">
         <table id="alerts-table" class="table"
             data-toggle="table"
             data-search="true"
@@ -67,6 +67,9 @@
                 </td>
               </tr>
         </table>
+        <div>
+            <a href="${request.resource_url(api.root, 'add_alert')}" class="btn btn-primary" >Create Alert</a>
+        </div>
     </div>
   </article>
 </html>
