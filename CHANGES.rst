@@ -1,6 +1,13 @@
 History
 =======
 
+
+0.2.12 - 0.2.13
+------------------
+
+- Fixed the alembic database configuration.
+
+
 0.2.7 - 0.2.11
 ----------------
 
