@@ -12,6 +12,7 @@ from kotti_alert import _
 from kotti_alert.resources import Alert, SeenBy
 from kotti_alert.fanstatic import css_and_js
 from kotti_alert.views import BaseView
+from pyramid.httpexceptions import HTTPForbidden
 
 
 @view_config(
@@ -70,12 +71,19 @@ class AlertControlPanel(BaseView):
         }
 
 
-@view_defaults(context=Alert, permission='view')
+@view_defaults(context=Alert)
 class AlertViews(BaseView):
     """ Views for :class:`kotti_alert.resources.CustomContent` """
 
     @view_config(name='view', renderer='kotti_alert:templates/alert.pt')
     def default_view(self):
+        if self.request.user:
+            user = self.request.user
+            if (self.context.username_or_group != user.name and
+                self.context.username_or_group not in user.groups and
+                self.context.username_or_group != ''):
+                raise HTTPForbidden()
+                
         return {}
 
     @view_config(name="update-seen-by", request_method="POST", renderer="json")
