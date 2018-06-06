@@ -82,7 +82,19 @@ class AlertViews(BaseView):
             if (self.context.username_or_group != user.name and
                 self.context.username_or_group not in user.groups and
                 self.context.username_or_group != ''):
+                
+                self.request.session.flash(
+                    "You do not have permission to view {} alert message".format(self.context.title),
+                    'warning'
+                )
                 raise HTTPForbidden()
+        elif self.context.username_or_group != '':
+                
+            self.request.session.flash(
+                "Please login to view {} alert message".format(self.context.title),
+                'warning'
+            )
+            raise HTTPForbidden()
                 
         return {}
 
