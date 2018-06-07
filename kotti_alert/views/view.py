@@ -29,16 +29,16 @@ class AlertMessageView(BaseView):
             for cookie in cookies:
                 try:
                     alert_ids.append(
-                        int(cookie.replace(" ", ""))    
+                        int(cookie.replace(" ", ""))
                     )
                 except TypeError as e:
                     print e
-        
+
         user = None
-        
+
         if self.request.user:
             user = self.request.user
-        
+
         alert = Alert.get_by_priority(
             user=user,
             excludes=alert_ids
@@ -50,7 +50,7 @@ class AlertMessageView(BaseView):
 
 class AlertControlPanel(BaseView):
     """Control panel for kotti alerts."""
-    
+
     @view_config(name="all-alerts",
                  permission="admin",
                  root_only=True,
@@ -77,31 +77,34 @@ class AlertViews(BaseView):
 
     @view_config(name='view', renderer='kotti_alert:templates/alert.pt')
     def default_view(self):
+        if self.request.has_permission("view", self.context):
+            return {}
+
         if self.request.user:
             user = self.request.user
             if (self.context.username_or_group != user.name and
                 self.context.username_or_group not in user.groups and
                 self.context.username_or_group != ''):
-                
+
                 self.request.session.flash(
                     "You do not have permission to view {} alert message".format(self.context.title),
                     'warning'
                 )
                 raise HTTPForbidden()
         elif self.context.username_or_group != '':
-                
+
             self.request.session.flash(
                 "Please login to view {} alert message".format(self.context.title),
                 'warning'
             )
             raise HTTPForbidden()
-                
+
         return {}
 
     @view_config(name="update-seen-by", request_method="POST", renderer="json")
     def update_seen_by(self):
         if not self.request.user:
             return {"message": "Not a valid user"}
-    
+
         SeenBy.add(self.context.id, self.request.user.name)
         return {"message": "Seen by list has been updated"}
