@@ -32,7 +32,7 @@ class AlertMessageView(BaseView):
                         int(cookie.replace(" ", ""))    
                     )
                 except TypeError as e:
-                    print e
+                    print(e)
         
         user = None
         
@@ -78,6 +78,8 @@ class AlertViews(BaseView):
     @view_config(name='view', renderer='kotti_alert:templates/alert.pt')
     def default_view(self):
         if self.request.user:
+            if self.request.has_permission('admin', self.context):
+                return {}
             user = self.request.user
             if (self.context.username_or_group != user.name and
                 self.context.username_or_group not in user.groups and
